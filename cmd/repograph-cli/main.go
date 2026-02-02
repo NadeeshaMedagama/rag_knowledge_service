@@ -158,7 +158,8 @@ var healthCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cfg, _ := config.Load()
 
-		fmt.Println("🏥 Health Check\n")
+		fmt.Println("🏥 Health Check")
+		fmt.Println()
 
 		ctx := context.Background()
 
