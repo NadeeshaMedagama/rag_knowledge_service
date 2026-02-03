@@ -89,7 +89,7 @@ func NewPineconeClient(cfg *config.Config, logger *zap.Logger) (*PineconeClient,
 		logger.Info("Using provided Pinecone host", zap.String("host", host))
 	} else {
 		// Fetch host from Pinecone control plane API
-		fetchedHost, err := fetchIndexHost(httpClient, cfg.Pinecone.APIKey, cfg.Pinecone.IndexName, logger)
+		fetchedHost, err := fetchIndexHost(context.Background(), httpClient, cfg.Pinecone.APIKey, cfg.Pinecone.IndexName, logger)
 		if err != nil {
 			return nil, fmt.Errorf("failed to fetch Pinecone index host: %w", err)
 		}
@@ -110,10 +110,10 @@ func NewPineconeClient(cfg *config.Config, logger *zap.Logger) (*PineconeClient,
 }
 
 // fetchIndexHost fetches the actual host URL from Pinecone control plane API
-func fetchIndexHost(httpClient *http.Client, apiKey, indexName string, logger *zap.Logger) (string, error) {
+func fetchIndexHost(ctx context.Context, httpClient *http.Client, apiKey, indexName string, logger *zap.Logger) (string, error) {
 	url := fmt.Sprintf("https://api.pinecone.io/indexes/%s", indexName)
 
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return "", fmt.Errorf("failed to create request: %w", err)
 	}
@@ -130,7 +130,10 @@ func fetchIndexHost(httpClient *http.Client, apiKey, indexName string, logger *z
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body) //nolint:errcheck
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return "", fmt.Errorf("API error (status %d): failed to read response body: %w", resp.StatusCode, err)
+		}
 		return "", fmt.Errorf("API error (status %d): %s", resp.StatusCode, string(body))
 	}
 
@@ -213,7 +216,10 @@ func (c *PineconeClient) upsertBatch(ctx context.Context, vectors []*Vector) err
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("API error (status %d): failed to read response body: %w", resp.StatusCode, err)
+		}
 		return fmt.Errorf("API error (status %d): %s", resp.StatusCode, string(body))
 	}
 
