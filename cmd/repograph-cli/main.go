@@ -111,8 +111,16 @@ var searchCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		query := args[0]
-		topK, _ := cmd.Flags().GetInt("top-k")
-		fileType, _ := cmd.Flags().GetString("type")
+		topK, err := cmd.Flags().GetInt("top-k")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error getting top-k flag: %v\n", err)
+			return
+		}
+		fileType, err := cmd.Flags().GetString("type")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error getting type flag: %v\n", err)
+			return
+		}
 
 		logger.Info("Searching documents",
 			zap.String("query", query),
@@ -142,7 +150,7 @@ var statusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "Check indexing status",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("📊 RepoGraph AI Status\n")
+		fmt.Println("📊 RepoGraph AI Status")
 
 		// TODO: Call orchestrator service for status
 		fmt.Println("Total Documents: 0")
@@ -156,7 +164,11 @@ var healthCmd = &cobra.Command{
 	Use:   "health",
 	Short: "Check service health",
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, _ := config.Load()
+		cfg, err := config.Load()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error loading config: %v\n", err)
+			return
+		}
 
 		fmt.Println("🏥 Health Check")
 		fmt.Println()
