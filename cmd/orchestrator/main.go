@@ -18,20 +18,26 @@ import (
 var logger *zap.Logger
 
 func main() {
+	if err := run(); err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
+}
+
+func run() error {
 	// Initialize logger
 	var err error
 	logger, err = zap.NewProduction()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to initialize logger: %v\n", err)
-		os.Exit(1)
+		return fmt.Errorf("failed to initialize logger: %w", err)
 	}
-	defer logger.Sync()
+	defer func() { _ = logger.Sync() }()
 
 	// Load configuration
 	cfg, err := config.Load()
 	if err != nil {
 		logger.Error("Failed to load configuration", zap.Error(err))
-		os.Exit(1)
+		return fmt.Errorf("failed to load configuration: %w", err)
 	}
 
 	logger.Info("Starting Orchestrator Service",
@@ -97,17 +103,17 @@ func main() {
 				zap.Bool("skip_existing", cfg.App.SkipExistingDocuments))
 
 			// Create document processor
-			processor, err := orchestrator.NewDocumentProcessor(cfg, logger)
-			if err != nil {
-				logger.Error("Failed to create document processor", zap.Error(err))
+			processor, procErr := orchestrator.NewDocumentProcessor(cfg, logger)
+			if procErr != nil {
+				logger.Error("Failed to create document processor", zap.Error(procErr))
 				return
 			}
 
 			// Process directory
 			ctx := context.Background()
-			err = processor.ProcessDirectory(ctx, cfg.App.DataDirectory)
-			if err != nil {
-				logger.Error("Failed to process directory", zap.Error(err))
+			procErr = processor.ProcessDirectory(ctx, cfg.App.DataDirectory)
+			if procErr != nil {
+				logger.Error("Failed to process directory", zap.Error(procErr))
 			} else {
 				logger.Info("Automatic indexing completed successfully")
 			}
@@ -127,8 +133,10 @@ func main() {
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
-		logger.Fatal("Server forced to shutdown", zap.Error(err))
+		logger.Error("Server forced to shutdown", zap.Error(err))
+		return fmt.Errorf("server forced to shutdown: %w", err)
 	}
 
 	logger.Info("Server exited")
+	return nil
 }
