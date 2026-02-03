@@ -38,6 +38,7 @@ type GoogleConfig struct {
 // PineconeConfig contains Pinecone vector database configuration
 type PineconeConfig struct {
 	APIKey        string `mapstructure:"api_key"`
+	Host          string `mapstructure:"host"`
 	IndexName     string `mapstructure:"index_name"`
 	Dimension     int    `mapstructure:"dimension"`
 	Cloud         string `mapstructure:"cloud"`
@@ -179,6 +180,7 @@ func bindEnvVariables() {
 
 	// Pinecone
 	_ = viper.BindEnv("pinecone.api_key", "PINECONE_API_KEY")
+	_ = viper.BindEnv("pinecone.host", "PINECONE_HOST")
 	_ = viper.BindEnv("pinecone.index_name", "PINECONE_INDEX_NAME")
 	_ = viper.BindEnv("pinecone.dimension", "PINECONE_DIMENSION")
 	_ = viper.BindEnv("pinecone.cloud", "PINECONE_CLOUD")
