@@ -31,7 +31,6 @@ linters:
     - unparam
     - unused
     - whitespace
-    - shadow
 
 linters-settings:
   gocyclo:
@@ -44,6 +43,9 @@ linters-settings:
   errcheck:
     check-type-assertions: true
     check-blank: true
+  govet:
+    enable:
+      - shadow
 
 issues:
   exclude-rules:
