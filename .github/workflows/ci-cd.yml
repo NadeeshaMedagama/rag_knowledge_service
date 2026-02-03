@@ -12,6 +12,12 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+# Required permissions for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   lint:
     name: Lint
@@ -27,7 +33,7 @@ jobs:
           cache: true
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v6
         with:
           version: latest
           args: --timeout=5m
@@ -66,7 +72,7 @@ jobs:
         run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.out
           flags: unittests
@@ -90,7 +96,7 @@ jobs:
         run: make build
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: binaries
           path: bin/
@@ -99,6 +105,8 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+    # Don't fail the workflow if security scan has issues (e.g., fork PRs)
+    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -114,7 +122,9 @@ jobs:
           args: '-no-fail -fmt sarif -out gosec-results.sarif ./...'
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
+        # Only upload if we have write access (not from forks)
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         with:
           sarif_file: gosec-results.sarif
 
@@ -200,7 +210,7 @@ jobs:
   notify:
     name: Notify
     runs-on: ubuntu-latest
-    needs: [lint, test, build, security]
+    needs: [lint, test, build]
     if: always()
     steps:
       - name: Check workflow status
