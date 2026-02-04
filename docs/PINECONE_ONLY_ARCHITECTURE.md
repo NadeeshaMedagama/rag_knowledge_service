@@ -73,7 +73,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                 RepoGraph Platform                      │
+│                 RAG Knowledge Service                      │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -231,7 +231,7 @@ python scripts/migrate_to_pinecone.py backup.sql
 ```bash
 # Pinecone (PRIMARY DATABASE)
 PINECONE_API_KEY=your_key
-PINECONE_INDEX_NAME=repograph-platform
+PINECONE_INDEX_NAME=rag-knowledge-service
 PINECONE_DIMENSION=1536
 PINECONE_CLOUD=aws
 PINECONE_REGION=us-east-1
@@ -326,7 +326,7 @@ When implementing services, remember:
 
 ## Status: ✅ COMPLETE
 
-Your RepoGraph Platform now uses **Pinecone-only architecture**!
+Your RAG Knowledge Service now uses **Pinecone-only architecture**!
 
 - Simpler deployment
 - Better for RAG
