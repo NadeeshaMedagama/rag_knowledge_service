@@ -83,7 +83,7 @@ AZURE_OPENAI_CHAT_DEPLOYMENT=gpt-4
 
 # Pinecone (REQUIRED)
 PINECONE_API_KEY=your_pinecone_key
-PINECONE_INDEX_NAME=repograph-platform
+PINECONE_INDEX_NAME=rag-knowledge-service
 PINECONE_DIMENSION=1536
 
 # Google Vision (OPTIONAL - for image analysis)
@@ -397,7 +397,7 @@ docker-compose logs -f orchestrator
 
 ---
 
-**Your RepoGraph Platform now automatically scans all diagrams and files from the data directory, creates summaries, generates embeddings, and stores them in Pinecone!** 🎉
+**Your RAG Knowledge Service now automatically scans all diagrams and files from the data directory, creates summaries, generates embeddings, and stores them in Pinecone!** 🎉
 
 **Status**: ✅ FULLY IMPLEMENTED AND READY TO USE
 
