@@ -29,7 +29,7 @@ The workflow has been updated to separate the analysis and upload steps:
   with:
     category: "/language:${{ matrix.language }}"
     output: sarif-results
-    upload-database: false
+    upload: never
   env:
     CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"finalize": ["--no-db-cluster"]}}'
 
@@ -44,7 +44,7 @@ The workflow has been updated to separate the analysis and upload steps:
 
 **Key changes:**
 - `output: sarif-results` - Saves results to a directory
-- `upload-database: false` - Prevents automatic upload during analysis
+- `upload: never` - **CRITICAL**: Prevents automatic upload during analysis (avoids duplicate upload error)
 - `--no-db-cluster` - Disables database clustering which can cause issues
 - Separate `upload-sarif` step with `if: always()` ensures upload happens even if analysis has warnings
 
