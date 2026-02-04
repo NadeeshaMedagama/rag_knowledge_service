@@ -33,11 +33,11 @@ COPY --from=builder /bin/orchestrator /app/orchestrator
 COPY configs/ /app/configs/
 
 # Create non-root user
-RUN addgroup -g 1000 repograph && \
-    adduser -D -u 1000 -G repograph repograph && \
-    chown -R repograph:repograph /app
+RUN addgroup -g 1000 ragknowledge && \
+    adduser -D -u 1000 -G ragknowledge ragknowledge && \
+    chown -R ragknowledge:ragknowledge /app
 
-USER repograph
+USER ragknowledge
 
 # Expose port
 EXPOSE 8088
