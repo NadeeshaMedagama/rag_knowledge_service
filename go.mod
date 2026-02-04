@@ -1,4 +1,4 @@
-module github.com/nadeeshame/repograph_platform
+module github.com/nadeeshame/rag-knowledge-service
 
 go 1.23.0
 
