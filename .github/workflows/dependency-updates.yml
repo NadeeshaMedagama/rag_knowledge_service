@@ -75,9 +75,9 @@ jobs:
         run: go mod verify
 
       - name: Run nancy (OSS Index)
-        uses: sonatype-nexus-community/nancy-github-action@main
-        with:
-          nancyVersion: v1.0.42
+        run: |
+          go install github.com/sonatype-nexus-community/nancy@v1.0.42
+          go list -json -deps ./... | nancy sleuth
 
       - name: Run govulncheck
         run: |
