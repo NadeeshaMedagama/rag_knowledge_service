@@ -177,7 +177,7 @@ CHUNK_OVERLAP=200                      # Overlap between chunks
 AZURE_OPENAI_API_KEY=your_key
 AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 PINECONE_API_KEY=your_key
-PINECONE_INDEX_NAME=repograph-platform
+PINECONE_INDEX_NAME=rag-knowledge-service
 GOOGLE_VISION_API_KEY=your_key         # Optional
 ```
 
