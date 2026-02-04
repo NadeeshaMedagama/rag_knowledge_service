@@ -2,7 +2,7 @@
 
 ## Overview
 
-RepoGraph Platform automatically indexes all documents when you start the services with `docker-compose up -d`. No manual steps required!
+RAG Knowledge Service automatically indexes all documents when you start the services with `docker-compose up -d`. No manual steps required!
 
 ## How It Works
 
