@@ -7,7 +7,7 @@ BINARY_DIR := bin
 DOCKER_COMPOSE := docker-compose
 
 # Service names
-SERVICES := orchestrator document-scanner content-extractor vision-service summarization-service embedding-service vector-store query-service repograph-cli
+SERVICES := orchestrator document-scanner content-extractor vision-service summarization-service embedding-service vector-store query-service rag-cli
 
 # Colors for output
 COLOR_RESET := \033[0m
@@ -17,7 +17,7 @@ COLOR_YELLOW := \033[33m
 COLOR_BLUE := \033[34m
 
 help: ## Show this help message
-	@echo "$(COLOR_BOLD)RepoGraph Platform - Makefile Commands$(COLOR_RESET)"
+	@echo "$(COLOR_BOLD)RAG Knowledge Service - Makefile Commands$(COLOR_RESET)"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "$(COLOR_GREEN)%-20s$(COLOR_RESET) %s\n", $$1, $$2}'
 
