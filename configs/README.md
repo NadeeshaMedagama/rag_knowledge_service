@@ -1,6 +1,6 @@
 # Configuration Files
 
-This directory contains configuration files for RepoGraph Platform.
+This directory contains configuration files for RAG Knowledge Service.
 
 ## Structure
 
@@ -29,7 +29,7 @@ See `.env.example` in the project root.
 ## Usage
 
 ```go
-import "github.com/nadeeshame/repograph_platform/internal/config"
+import "github.com/nadeeshame/rag-knowledge-service/internal/config"
 
 cfg, err := config.Load()
 ```
