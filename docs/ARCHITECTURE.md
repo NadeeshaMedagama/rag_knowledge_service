@@ -1,4 +1,4 @@
-# RepoGraph Platform Architecture
+# RAG Knowledge Service Architecture
 
 ## Table of Contents
 - [Overview](#overview)
@@ -13,7 +13,7 @@
 
 ## Overview
 
-RepoGraph Platform is built using a **microservices architecture** with **SOLID principles** at its core. The system is designed for scalability, maintainability, and extensibility.
+RAG Knowledge Service is built using a **microservices architecture** with **SOLID principles** at its core. The system is designed for scalability, maintainability, and extensibility.
 
 ### Key Architectural Goals
 
@@ -131,7 +131,7 @@ internal/
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         RepoGraph Platform                       │
+│                         RAG Knowledge Service                       │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  ┌──────────────────────────────────────────────────────────┐  │
