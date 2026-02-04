@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*.*.*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
 
 env:
   GO_VERSION: '1.24'
@@ -15,11 +20,39 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      tag: ${{ steps.tag.outputs.TAG }}
+      version: ${{ steps.version.outputs.VERSION }}
     steps:
+      - name: Validate version input
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [[ ! "${{ github.event.inputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Version must be in format v*.*.* (e.g., v1.0.0)"
+            exit 1
+          fi
+
+      - name: Set release tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "TAG=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Create tag for manual release
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a ${{ steps.tag.outputs.TAG }} -m "Release ${{ steps.tag.outputs.TAG }}"
+          git push origin ${{ steps.tag.outputs.TAG }}
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -59,11 +92,18 @@ jobs:
         id: changelog
         run: |
           echo "## What's Changed" > CHANGELOG.md
-          git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --oneline --no-merges >> CHANGELOG.md
+          git log $(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo HEAD~10)..HEAD --oneline --no-merges >> CHANGELOG.md || echo "Initial release" >> CHANGELOG.md
+
+      - name: Extract version
+        id: version
+        run: |
+          TAG="${{ steps.tag.outputs.TAG }}"
+          echo "VERSION=${TAG#v}" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag.outputs.TAG }}
           files: |
             dist/*.tar.gz
             dist/*.zip
@@ -84,6 +124,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.create-release.outputs.tag }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -95,10 +137,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -106,12 +144,12 @@ jobs:
           file: ./deployments/docker/Dockerfile.${{ matrix.service }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}-${{ matrix.service }}:${{ steps.version.outputs.VERSION }}
+            ghcr.io/${{ github.repository }}-${{ matrix.service }}:${{ needs.create-release.outputs.version }}
             ghcr.io/${{ github.repository }}-${{ matrix.service }}:latest
           labels: |
             org.opencontainers.image.title=${{ matrix.service }}
-            org.opencontainers.image.description=RepoGraph AI ${{ matrix.service }}
-            org.opencontainers.image.version=${{ steps.version.outputs.VERSION }}
+            org.opencontainers.image.description=RAG Knowledge Service ${{ matrix.service }}
+            org.opencontainers.image.version=${{ needs.create-release.outputs.version }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
 
   notify-release:
@@ -119,11 +157,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-release, publish-docker]
     steps:
-      - name: Extract version
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
       - name: Send notification
         run: |
-          echo "Release ${{ steps.version.outputs.VERSION }} created successfully!"
+          echo "Release ${{ needs.create-release.outputs.tag }} created successfully!"
+          echo "Version: ${{ needs.create-release.outputs.version }}"
           # Add notification logic here (Slack, email, etc.)
