@@ -1,4 +1,4 @@
-# RepoGraph Platform
+# RAG Knowledge Service
 
 <p align="center">
   <strong>🚀 Enterprise-Grade Intelligent Document Processing & RAG System in Go</strong>
@@ -16,7 +16,7 @@
 
 ## 🌟 Overview
 
-**RepoGraph Platform** is a production-ready, microservices-based Retrieval-Augmented Generation (RAG) application built in Go that transforms your documents into an intelligent, searchable knowledge base. Built with enterprise requirements in mind, it processes 50+ file types, generates comprehensive summaries, and enables semantic search powered by Azure OpenAI and Pinecone.
+**RAG Knowledge Service** is a production-ready, microservices-based Retrieval-Augmented Generation (RAG) application built in Go that transforms your documents into an intelligent, searchable knowledge base. Built with enterprise requirements in mind, it processes 50+ file types, generates comprehensive summaries, and enables semantic search powered by Azure OpenAI and Pinecone.
 
 ### Key Capabilities
 
@@ -86,7 +86,7 @@
 
 ```bash
 # Clone or navigate to project
-cd /home/nadeeshame/go/repograph_platform
+cd /home/nadeeshame/go/rag-knowledge-service
 
 # Copy environment configuration
 cp .env.example .env
@@ -101,7 +101,7 @@ go mod download
 make build
 
 # Or build specific service
-go build -o bin/repograph-cli cmd/repograph-cli/main.go
+go build -o bin/rag-cli cmd/rag-cli/main.go
 ```
 
 ### Configuration
@@ -182,13 +182,13 @@ docker run -d --name redis -p 6379:6379 redis:7
 
 ```bash
 # Re-index all documents manually
-./bin/repograph-cli index
+./bin/rag-cli index
 
 # Force reprocess all documents (ignores deduplication)
-./bin/repograph-cli index --force
+./bin/rag-cli index --force
 
 # Index a specific directory
-./bin/repograph-cli index --directory ./my-docs
+./bin/rag-cli index --directory ./my-docs
 ```
 
 **Indexing Process**:
@@ -204,13 +204,13 @@ docker run -d --name redis -p 6379:6379 redis:7
 
 ```bash
 # Ask a question
-./bin/repograph-cli query ask "What is the Choreo architecture?"
+./bin/rag-cli query ask "What is the Choreo architecture?"
 
 # Search documents
-./bin/repograph-cli query search "authentication flow"
+./bin/rag-cli query search "authentication flow"
 
 # Interactive mode
-./bin/repograph-cli query interactive
+./bin/rag-cli query interactive
 ```
 
 ---
@@ -219,11 +219,11 @@ docker run -d --name redis -p 6379:6379 redis:7
 
 ### Microservices Design
 
-RepoGraph Platform follows a clean microservices architecture with clear separation of concerns:
+RAG Knowledge Service follows a clean microservices architecture with clear separation of concerns:
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│                    CLI Layer (repograph-cli)                   │
+│                    CLI Layer (rag-cli)                   │
 └────────────────────────────────────────────────────────────────┘
                                   │
                                   ▼
@@ -275,7 +275,7 @@ RepoGraph Platform follows a clean microservices architecture with clear separat
 ### Project Structure
 
 ```
-repograph_platform/
+rag-knowledge-service/
 ├── cmd/                        # Service entry points
 │   ├── orchestrator/          # Orchestrator service
 │   ├── document-scanner/      # Document scanner service
@@ -285,7 +285,7 @@ repograph_platform/
 │   ├── embedding-service/     # Embedding service
 │   ├── vector-store/          # Vector store service
 │   ├── query-service/         # Query service
-│   └── repograph-cli/         # CLI application
+│   └── rag-cli/         # CLI application
 │
 ├── internal/                   # Private application code
 │   ├── domain/                # Domain layer
@@ -381,7 +381,7 @@ repograph_platform/
 
 ## 🔄 CI/CD Pipeline
 
-RepoGraph AI includes a comprehensive CI/CD pipeline using GitHub Actions.
+RAG Knowledge Service includes a comprehensive CI/CD pipeline using GitHub Actions.
 
 ### Workflows
 
