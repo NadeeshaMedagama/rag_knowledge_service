@@ -1,8 +1,8 @@
-# RepoGraph Platform - Project Summary
+# RAG Knowledge Service - Project Summary
 
 ## Overview
 
-**RepoGraph Platform** is an enterprise-grade, microservices-based Retrieval-Augmented Generation (RAG) system built in Go. It processes 50+ file formats, generates AI-powered summaries, and enables semantic search using Azure OpenAI and Pinecone vector database.
+**RAG Knowledge Service** is an enterprise-grade, microservices-based Retrieval-Augmented Generation (RAG) system built in Go. It processes 50+ file formats, generates AI-powered summaries, and enables semantic search using Azure OpenAI and Pinecone vector database.
 
 ## Project Status
 
@@ -122,7 +122,7 @@
 ## File Structure
 
 ```
-repograph_platform/
+rag-knowledge-service/
 ├── cmd/                        # ✅ Entry points
 ├── internal/
 │   ├── domain/                # ✅ Models & interfaces
