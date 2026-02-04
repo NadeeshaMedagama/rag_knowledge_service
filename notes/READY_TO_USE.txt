@@ -36,12 +36,12 @@ TO START USING IT:
    - AZURE_OPENAI_API_KEY=sk-xxxxx...
    - AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
    - PINECONE_API_KEY=xxxxxx-xxxx...
-   - PINECONE_INDEX_NAME=repograph-platform
+   - PINECONE_INDEX_NAME=rag-knowledge-service
 2. Create Pinecone Index
    ----------------------
    Go to: https://app.pinecone.io
    - Create new index
-   - Name: repograph-platform
+   - Name: rag-knowledge-service
    - Dimensions: 1536
    - Metric: cosine
 3. Add Documents
