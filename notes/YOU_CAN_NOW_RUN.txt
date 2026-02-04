@@ -15,7 +15,7 @@ All issues resolved. Your RepoGraph Platform uses ONLY Pinecone for storage.
    AZURE_OPENAI_API_KEY=your_azure_key
    AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
    PINECONE_API_KEY=your_pinecone_key
-   PINECONE_INDEX_NAME=repograph-platform
+   PINECONE_INDEX_NAME=rag-knowledge-service
    GOOGLE_VISION_API_KEY=your_vision_key (optional)
 3. Start services:
    docker-compose up -d
