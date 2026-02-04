@@ -125,7 +125,7 @@ The services are built and ready but need **real API credentials** to run:
 AZURE_OPENAI_API_KEY=your_actual_key_here
 AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 PINECONE_API_KEY=your_actual_key_here
-PINECONE_INDEX_NAME=repograph-platform
+PINECONE_INDEX_NAME=rag-knowledge-service
 
 # Optional
 GOOGLE_VISION_API_KEY=your_key
@@ -133,7 +133,7 @@ GOOGLE_VISION_API_KEY=your_key
 
 ### Pinecone Setup:
 1. Login to Pinecone dashboard
-2. Create new index: `repograph-platform`
+2. Create new index: `rag-knowledge-service`
 3. Dimension: `1536`
 4. Metric: `cosine`
 
@@ -152,7 +152,7 @@ nano .env
 ### Step 2: Create Pinecone Index
 
 Go to https://app.pinecone.io and create index with:
-- Name: `repograph-platform`
+- Name: `rag-knowledge-service`
 - Dimensions: `1536`
 - Metric: `cosine`
 
@@ -291,4 +291,4 @@ The entire system is implemented, tested, and builds successfully. It will work 
 **Build**: ✅ SUCCESS  
 **Next**: Add API keys and run!
 
-Your RepoGraph Platform is ready! 🚀
+Your RAG Knowledge Service is ready! 🚀
