@@ -271,7 +271,7 @@ if len(existing.Matches) > 0 {
 
 ### Check Docker Compose
 ```bash
-cd /home/nadeeshame/go/repograph_platform
+cd /home/nadeeshame/go/rag-knowledge-service
 
 # Should show 9 services (NO postgres)
 docker-compose config --services | sort
