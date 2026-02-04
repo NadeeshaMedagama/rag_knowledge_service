@@ -46,7 +46,7 @@ jobs:
         with:
           category: "/language:${{ matrix.language }}"
           output: sarif-results
-          upload-database: false
+          upload: never
         env:
           # Disable compression to avoid content-length mismatch
           CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"finalize": ["--no-db-cluster"]}}'
