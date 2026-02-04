@@ -26,6 +26,11 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
+      - name: Download dependencies
+        run: |
+          go mod tidy
+          go mod download
+
       - name: Run tests
         run: go test -v ./...
 
@@ -35,20 +40,20 @@ jobs:
           mkdir -p dist
           
           # Package binaries for different platforms
-          GOOS=linux GOARCH=amd64 go build -o dist/repograph-cli-linux-amd64 ./cmd/repograph-cli
-          GOOS=linux GOARCH=arm64 go build -o dist/repograph-cli-linux-arm64 ./cmd/repograph-cli
-          GOOS=darwin GOARCH=amd64 go build -o dist/repograph-cli-darwin-amd64 ./cmd/repograph-cli
-          GOOS=darwin GOARCH=arm64 go build -o dist/repograph-cli-darwin-arm64 ./cmd/repograph-cli
-          GOOS=windows GOARCH=amd64 go build -o dist/repograph-cli-windows-amd64.exe ./cmd/repograph-cli
+          GOOS=linux GOARCH=amd64 go build -o dist/rag-cli-linux-amd64 ./cmd/rag-cli
+          GOOS=linux GOARCH=arm64 go build -o dist/rag-cli-linux-arm64 ./cmd/rag-cli
+          GOOS=darwin GOARCH=amd64 go build -o dist/rag-cli-darwin-amd64 ./cmd/rag-cli
+          GOOS=darwin GOARCH=arm64 go build -o dist/rag-cli-darwin-arm64 ./cmd/rag-cli
+          GOOS=windows GOARCH=amd64 go build -o dist/rag-cli-windows-amd64.exe ./cmd/rag-cli
 
       - name: Create archives
         run: |
           cd dist
-          tar -czf repograph-cli-linux-amd64.tar.gz repograph-cli-linux-amd64
-          tar -czf repograph-cli-linux-arm64.tar.gz repograph-cli-linux-arm64
-          tar -czf repograph-cli-darwin-amd64.tar.gz repograph-cli-darwin-amd64
-          tar -czf repograph-cli-darwin-arm64.tar.gz repograph-cli-darwin-arm64
-          zip repograph-cli-windows-amd64.zip repograph-cli-windows-amd64.exe
+          tar -czf rag-cli-linux-amd64.tar.gz rag-cli-linux-amd64
+          tar -czf rag-cli-linux-arm64.tar.gz rag-cli-linux-arm64
+          tar -czf rag-cli-darwin-amd64.tar.gz rag-cli-darwin-amd64
+          tar -czf rag-cli-darwin-arm64.tar.gz rag-cli-darwin-arm64
+          zip rag-cli-windows-amd64.zip rag-cli-windows-amd64.exe
 
       - name: Generate changelog
         id: changelog
