@@ -1,4 +1,4 @@
-# Quick Start Guide - RepoGraph Platform
+# Quick Start Guide - RAG Knowledge Service Platform
 
 ## Prerequisites Check
 
@@ -27,7 +27,7 @@ nano .env
 AZURE_OPENAI_API_KEY=your_azure_key_here
 AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 PINECONE_API_KEY=your_pinecone_key_here
-PINECONE_INDEX_NAME=repograph-platform
+PINECONE_INDEX_NAME=rag-knowledge-service
 ```
 
 ### 2. Start Infrastructure Only (Redis)
@@ -135,7 +135,7 @@ curl http://localhost:8082/health  # Content Extractor
 
 ```bash
 # Build the CLI tool
-go build -o bin/repograph-cli cmd/repograph-cli/main.go
+go build -o bin/rag-cli cmd/rag-cli/main.go
 
 # Or use Make
 make build-cli
@@ -224,7 +224,7 @@ grep -n "TODO" cmd/orchestrator/main.go
 
 ```bash
 # Using CLI
-./bin/repograph-cli query ask "What is in the documents?"
+./bin/rag-cli query ask "What is in the documents?"
 
 # Or via API
 curl -X POST http://localhost:8087/api/v1/query \
@@ -307,7 +307,7 @@ make build
 
 **Solution**: Make sure you're in the project root directory where `docker-compose.yml` exists:
 ```bash
-cd /home/nadeeshame/go/repograph_platform
+cd /home/nadeeshame/go/rag-knowledge-service
 docker-compose up -d
 ```
 
@@ -367,7 +367,7 @@ Create a simple script to check all services:
 #!/bin/bash
 # Save as check-health.sh
 
-echo "Checking RepoGraph Platform Services..."
+echo "Checking RAG Knowledge Service Platform Services..."
 echo "======================================"
 
 services=(
@@ -404,7 +404,7 @@ chmod +x check-health.sh
 Add to your `~/.bashrc` or `~/.zshrc`:
 
 ```bash
-# RepoGraph Platform shortcuts
+# RAG Knowledge Service Platform shortcuts
 alias rg-up='docker-compose up -d'
 alias rg-down='docker-compose down'
 alias rg-logs='docker-compose logs -f'
