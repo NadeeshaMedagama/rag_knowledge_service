@@ -49,4 +49,4 @@ Current status: To be implemented
 4. Use testcontainers for integration tests
 5. Follow Go testing best practices
 
-See `docs/DEVELOPMENT.md` for testing guidelines.
+See `docs/development/DEVELOPMENT.md` for testing guidelines.

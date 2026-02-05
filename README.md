@@ -372,11 +372,11 @@ rag-knowledge-service/
 
 | Document | Description |
 |----------|-------------|
-| [Architecture Guide](docs/ARCHITECTURE.md) | Detailed architecture and design patterns |
-| [API Reference](docs/API_REFERENCE.md) | Service APIs and interfaces |
-| [Deployment Guide](docs/DEPLOYMENT.md) | Production deployment instructions |
-| [Development Guide](docs/DEVELOPMENT.md) | Local development setup and guidelines |
-| [CodeQL Troubleshooting](docs/CODEQL_TROUBLESHOOTING.md) | Fix CodeQL workflow issues |
+| [Architecture Guide](docs/architecture/ARCHITECTURE.md) | Detailed architecture and design patterns |
+| [API Reference](docs/api/API_REFERENCE.md) | Service APIs and interfaces |
+| [Deployment Guide](docs/deployment/DEPLOYMENT.md) | Production deployment instructions |
+| [Development Guide](docs/development/DEVELOPMENT.md) | Local development setup and guidelines |
+| [CodeQL Troubleshooting](docs/troubleshooting/CODEQL_TROUBLESHOOTING.md) | Fix CodeQL workflow issues |
 
 ---
 
