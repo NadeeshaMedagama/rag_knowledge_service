@@ -34,4 +34,4 @@ This is planned for **Phase 2** (production deployment).
 
 For now, use Docker Compose for local development and testing.
 
-See `docs/DEPLOYMENT.md` for current deployment options.
+See `docs/deployment/DEPLOYMENT.md` for current deployment options.
